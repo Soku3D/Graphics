@@ -8,7 +8,7 @@
 Image::Image(int width , int height, int channels , std::string filename)
 	:width(width), height(height), channels(channels)
 {
-	char* pPath = getenv("buildtest");
+	char* pPath = getenv("GRAPHICS_PATH");
 	writePath = pPath;
 	writePath += "/";
 	writePath += filename;
@@ -34,4 +34,5 @@ void Image::WritePng(std::vector<glm::vec3>& pixels) {
 		img[i * channels + 2] = uint8_t(pixels[i].z * 255.0f);
 	}
 	stbi_write_png(writePath.c_str(), width, height, channels, img.data(), width * channels);
+	//stbi_write_jpg(writePath.c_str(), width, height, channels, img.data(), 100);
 }
