@@ -1,3 +1,4 @@
+
 #include <omp.h>
 #include <string>
 #include <iostream>
@@ -6,6 +7,7 @@
 
 int main(int argc, char** argv) {
 	int width = 1920, height = 1080;
+	
 	std::vector<glm::vec3> pixels(width * height);
 	std::string filename;
 	std::cout << "저장 파일 이름: ";
