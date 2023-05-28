@@ -1,6 +1,5 @@
 #include "Raytracer.h"
 
-
 son::Raytracer::Raytracer(int width, int height)
 	: width(width), height(height), imgWidth(width), imgHeight(height), imgChannels(3), aspect((float)width / height)
 {
@@ -11,7 +10,15 @@ son::Raytracer::Raytracer(int width, int height)
 	sphere->alpha = 100.0f;
 	sphere->ks = 5.0f;
 	objects.push_back(sphere);
-	light = Light{ {1.0f, 1.0f, 0.3f} };
+
+	auto triangle = std::make_shared<Triangle>(glm::vec3(-2.3f, -1.3f, 2.0f), glm::vec3(-2.3f, 1.3f, 2.0f), glm::vec3(0.3f, 1.3f, 2.0f));
+	triangle->amb = glm::vec3(0.2f);
+	triangle->diff = glm::vec3(0.5f);
+	triangle->spec = glm::vec3(0.5f);
+	triangle->alpha = 5.0f;
+	triangle->ks = 5.0f;
+	objects.push_back(triangle);
+	light = Light{ {1.0f, 1.0f, -1.0f} };
 }
 son::Hit son::Raytracer::FindClosestObject(Ray& ray) {
 	Hit closestHit{ glm::vec3(0.0f), glm::vec3(0.0f), -1 };

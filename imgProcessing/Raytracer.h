@@ -6,6 +6,7 @@
 #include "Object.h"
 #include "Sphere.h"
 #include "Light.h"
+#include "Triangle.h"
 namespace son {
 	class Raytracer {
 	public:
