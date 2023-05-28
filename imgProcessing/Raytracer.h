@@ -7,6 +7,7 @@
 #include "Sphere.h"
 #include "Light.h"
 #include "Triangle.h"
+#include "Square.h"
 namespace son {
 	class Raytracer {
 	public:
@@ -21,6 +22,7 @@ namespace son {
 		glm::vec3 TransformScreenToWorld(glm::vec3 screenPos);
 		glm::vec3 Raytrace(Ray& ray);
 		Hit FindClosestObject(Ray& ray);
+		bool IsInShade(Ray& ray);
 	};
 
 }
