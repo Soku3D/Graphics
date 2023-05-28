@@ -1,2 +1,0 @@
-# Graphics
-graphics study
