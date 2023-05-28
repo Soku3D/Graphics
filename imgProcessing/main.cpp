@@ -10,9 +10,11 @@ int main(int argc, char** argv) {
 	std::string filename;
 	std::cout << "저장 파일 이름: ";
 	std::cin >> filename;
+
 	son::Raytracer raytracer(width,height);
-	Image img(width, height, 3, filename);
 	raytracer.Render(pixels);
+	
+	Image img(width, height, 3, filename);
 	img.WritePng(pixels);
 	
 }

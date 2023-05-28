@@ -35,4 +35,5 @@ void Image::WritePng(std::vector<glm::vec3>& pixels) {
 	}
 	stbi_write_png(writePath.c_str(), width, height, channels, img.data(), width * channels);
 	//stbi_write_jpg(writePath.c_str(), width, height, channels, img.data(), 100);
+	system(writePath.c_str());
 }
