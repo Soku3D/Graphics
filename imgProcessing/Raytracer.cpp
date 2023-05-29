@@ -11,13 +11,13 @@ son::Raytracer::Raytracer(int width, int height)
 	sphere->ks = 5.0f;
 	//objects.push_back(sphere);
 
-	auto square = std::make_shared<Square>(glm::vec3(-2.0f, -1.0f, 0.0f), glm::vec3(-2.0f, -1.0f, 4.0f), glm::vec3(2.0f, -1.0f, 4.0f), glm::vec3(2.0f, -1.0f, 0.0f));
+	auto square = std::make_shared<Square>(glm::vec3(-2.0f, 2.0f, 3.0f), glm::vec3(2.0f, 2.0f, 3.0f), glm::vec3(2.0f, -2.0f, 3.0f), glm::vec3(-2.0f, -2.0f, 3.0f));
 	square->amb = glm::vec3(0.2f);
 	square->diff = glm::vec3(0.5f);
 	square->spec = glm::vec3(0.5f);
 	square->alpha = 5.0f;
 	square->ks = 5.0f;
-	//objects.push_back(square);
+	objects.push_back(square);
 
 	auto triangle = std::make_shared<Triangle>(glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec3(-2.0f, 2.0f, 2.0f), glm::vec3(2.0f, 2.0f, 2.0f));
 	triangle->amb = glm::vec3(0.2f);
@@ -25,7 +25,7 @@ son::Raytracer::Raytracer(int width, int height)
 	triangle->spec = glm::vec3(0.5f);
 	triangle->alpha = 5.0f;
 	triangle->ks = 5.0f;
-	objects.push_back(triangle);
+	//objects.push_back(triangle);
 
 	light = Light{ {0.0f, 4.0f, 0.0f} };
 }
@@ -59,7 +59,7 @@ glm::vec3 son::Raytracer::Raytrace(Ray& ray) {
 		glm::vec3 v1Color(0.0f, 1.0f, 0.0f);
 		glm::vec3 v2Color(0.0f, 0.0f, 1.0f);
 		
-		return hit.w0 * v0Color + hit.w1 * v1Color + hit.w2 * v2Color;
+		//return hit.w0 * v0Color + hit.w1 * v1Color + hit.w2 * v2Color;
 
 		glm::vec3 directToLight = glm::normalize(light.pos - hit.point);
 

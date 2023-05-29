@@ -51,7 +51,7 @@ namespace son {
 			float faceArea = glm::length(glm::cross(v01, -v20)) / 2.0f;
 			w0 = (glm::length(cross2) / 2.0f) / faceArea;
 			w1 = (glm::length(cross3) / 2.0f) / faceArea;
-			w2 = (glm::length(cross1) / 2.0f) / faceArea;
+			w2 = 1.0f - w0 - w1;
 
 			if (glm::dot(cross1, norm) < 0.0f || glm::dot(cross2, norm) < 0.0f ||
 				glm::dot(cross3, norm) < 0.0f)
