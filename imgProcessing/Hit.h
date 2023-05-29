@@ -9,6 +9,7 @@ namespace son {
 		glm::vec3 point;
 		glm::vec3 normal;
 		float d;
+		float w0, w1, w2;
 		std::shared_ptr<class Object> obj;
 	};
 }

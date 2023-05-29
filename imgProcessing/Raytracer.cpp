@@ -9,7 +9,7 @@ son::Raytracer::Raytracer(int width, int height)
 	sphere->spec = glm::vec3(1.0f);
 	sphere->alpha = 100.0f;
 	sphere->ks = 5.0f;
-	objects.push_back(sphere);
+	//objects.push_back(sphere);
 
 	auto square = std::make_shared<Square>(glm::vec3(-2.0f, -1.0f, 0.0f), glm::vec3(-2.0f, -1.0f, 4.0f), glm::vec3(2.0f, -1.0f, 4.0f), glm::vec3(2.0f, -1.0f, 0.0f));
 	square->amb = glm::vec3(0.2f);
@@ -17,7 +17,16 @@ son::Raytracer::Raytracer(int width, int height)
 	square->spec = glm::vec3(0.5f);
 	square->alpha = 5.0f;
 	square->ks = 5.0f;
-	objects.push_back(square);
+	//objects.push_back(square);
+
+	auto triangle = std::make_shared<Triangle>(glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec3(-2.0f, 2.0f, 2.0f), glm::vec3(2.0f, 2.0f, 2.0f));
+	triangle->amb = glm::vec3(0.2f);
+	triangle->diff = glm::vec3(0.5f);
+	triangle->spec = glm::vec3(0.5f);
+	triangle->alpha = 5.0f;
+	triangle->ks = 5.0f;
+	objects.push_back(triangle);
+
 	light = Light{ {0.0f, 4.0f, 0.0f} };
 }
 son::Hit son::Raytracer::FindClosestObject(Ray& ray) {
@@ -46,17 +55,18 @@ glm::vec3 son::Raytracer::Raytrace(Ray& ray) {
 	const Hit hit = FindClosestObject(ray);
 	if (hit.d >= 0.0f)
 	{
+		glm::vec3 v0Color(1.0f, 0.0f, 0.0f);
+		glm::vec3 v1Color(0.0f, 1.0f, 0.0f);
+		glm::vec3 v2Color(0.0f, 0.0f, 1.0f);
+		
+		return hit.w0 * v0Color + hit.w1 * v1Color + hit.w2 * v2Color;
+
 		glm::vec3 directToLight = glm::normalize(light.pos - hit.point);
 
-		/*Ray reflectRay{ directToLight, hit.point + directToLight * 1e-2f };
+		Ray reflectRay{ directToLight, hit.point + directToLight * 1e-2f };
 		if (IsInShade(reflectRay))
-			return hit.obj->amb;*/
-		Ray lightRay;
-		lightRay.dir = directToLight;
-		lightRay.start = hit.point + hit.normal * 1e-2f;
-		const auto hitLight = FindClosestObject(lightRay);
-		if (hitLight.d >= 0.0f)
 			return hit.obj->amb;
+
 		float diff = glm::max(glm::dot(directToLight, hit.normal), 0.0f);
 
 		glm::vec3 reflectDir = (2.0f * glm::dot(hit.normal, directToLight)) * hit.normal - directToLight;
