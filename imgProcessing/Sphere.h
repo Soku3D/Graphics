@@ -13,13 +13,18 @@ namespace son {
 		virtual Hit IntersectRayCollision(Ray& ray) override {
 
 			Hit hit{ glm::vec3(0.0f),glm::vec3(0.0f),-1.0f };
-			glm::vec3 rayToCenter = center - ray.start;
-			glm::vec3 innerToDir = ray.dir * glm::dot(ray.dir, rayToCenter);
-			if (glm::dot(ray.dir, rayToCenter) < 0.0f)
-				return hit;
-			glm::vec3 centerToDir = innerToDir - rayToCenter;
-			if (r * r >= glm::dot(centerToDir, centerToDir)) {
-				hit.d = glm::length(innerToDir) - glm::sqrt(r*r - glm::dot(centerToDir, centerToDir));
+
+			// point = o + ud  o : ray.start / u : ray.dir  
+			// ax^2+2bx+c = 0
+			float b = glm::dot(ray.dir, ray.start - center);				// dot(u,o-c)
+			float c = glm::dot(ray.start - center, ray.start - center) - r * r;	// (u-c)^2 - r^2
+
+			float del = b * b - c;
+			if (del >= 0) {
+				float d1 = (-b + sqrt(b * b - c));
+				float d2 = (-b - sqrt(b * b -  c));
+				float d = glm::min(d1, d2);
+				hit.d = d;
 				hit.point = ray.start + ray.dir * hit.d;
 				hit.normal = glm::normalize(hit.point - center);
 			}
