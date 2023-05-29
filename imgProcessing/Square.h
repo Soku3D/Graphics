@@ -12,10 +12,17 @@ namespace son {
 			Hit hit1 = t1.IntersectRayCollision(ray);
 			Hit hit2 = t2.IntersectRayCollision(ray);
 
-			if (hit1.d >= 0.0f)
+			if (hit1.d >= 0.0f) {
+				hit1.uv = glm::vec2(hit1.w0 * glm::vec2(0.0f, 0.0f)) + glm::vec2(hit1.w1 * glm::vec2(1.0f, 0.0f)) + glm::vec2(hit1.w2 * glm::vec2(1.0f, 1.0f));
 				return hit1;
-			else
+			}
+			else {
+				if (hit2.d >= 0.0f) {
+					hit2.uv = glm::vec2(hit2.w0 * glm::vec2(0.0f, 0.0f)) + glm::vec2(hit2.w1 * glm::vec2(1.0f, 1.0f)) + glm::vec2(hit2.w2 * glm::vec2(0.0f, 1.0f));
+				}
 				return hit2;
+			}
+				
 		}
 	};
 }

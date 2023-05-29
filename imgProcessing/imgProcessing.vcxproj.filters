@@ -21,7 +21,7 @@
     <ClCompile Include="Raytracer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
+    <ClCompile Include="Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClInclude Include="Sphere.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Triangle.h">
@@ -53,10 +53,5 @@
     <ClInclude Include="Square.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="1.JPG">
-      <Filter>리소스 파일</Filter>
-    </Image>
   </ItemGroup>
 </Project>

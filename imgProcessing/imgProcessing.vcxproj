@@ -130,13 +130,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Raytracer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hit.h" />
-    <ClInclude Include="Image.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Ray.h" />
@@ -144,9 +144,6 @@
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Square.h" />
     <ClInclude Include="Triangle.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="1.JPG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
