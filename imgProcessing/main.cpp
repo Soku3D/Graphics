@@ -6,7 +6,7 @@
 #include "Texture.h"
 
 int main(int argc, char** argv) {
-	const int width = 1280, height = 720;
+	const int width = 1920/8, height = 1080/8;
 	
 	std::vector<glm::vec3> pixels(width * height);
 	std::string filename;

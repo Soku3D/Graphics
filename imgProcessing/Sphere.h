@@ -10,7 +10,7 @@ namespace son {
 			:center(center), r(r), Object(color)
 		{
 		}
-		virtual Hit IntersectRayCollision(Ray& ray) override {
+		virtual Hit IntersectRayCollision(const Ray& ray) override {
 
 			Hit hit{ glm::vec3(0.0f),glm::vec3(0.0f),-1.0f };
 

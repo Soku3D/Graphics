@@ -16,6 +16,6 @@ namespace son {
 		Object(glm::vec3 color = glm::vec3(0.0f))
 			:amb(color), diff(color), spec(color), ks(0.8f), alpha(0.8f)
 		{}
-		virtual Hit IntersectRayCollision(Ray& ray) = 0;
+		virtual Hit IntersectRayCollision(const Ray& ray) = 0;
 	};
 }
