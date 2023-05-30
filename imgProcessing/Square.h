@@ -19,7 +19,7 @@ namespace son {
 			t2.uv2 = uv3;
 
 		}
-		virtual Hit IntersectRayCollision(Ray& ray) override {
+		virtual Hit IntersectRayCollision(const Ray& ray) override {
 			Hit hit1 = t1.IntersectRayCollision(ray);
 			Hit hit2 = t2.IntersectRayCollision(ray);
 
