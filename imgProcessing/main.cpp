@@ -6,18 +6,17 @@
 #include "Texture.h"
 
 int main(int argc, char** argv) {
-	int width = 1920, height = 1080;
+	const int width = 1280, height = 720;
 	
-	//std::vector<glm::vec3> pixels(width * height);
+	std::vector<glm::vec3> pixels(width * height);
 	std::string filename;
 	std::cout << "저장 파일 이름: ";
 	std::cin >> filename;
 
 	son::Raytracer raytracer(width,height);
-	//raytracer.Render(pixels);
-	std::vector<glm::vec3> pixels;
-	Texture img(0,0,0,filename);
-	img.ReadFromImage(pixels);
-	img.WritePng(pixels);
+	raytracer.Render(pixels);
+	
+	Texture img(width,height,3, pixels);
+	img.WritePng(filename);
 	
 }
