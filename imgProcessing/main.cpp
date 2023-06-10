@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
 	son::Raytracer raytracer(width,height);
 	raytracer.Render(pixels);
 	
-	Image img(width, height, 3, filename);
+	Texture img(width, height, 3, filename);
 	img.WritePng(pixels);
 	
 }

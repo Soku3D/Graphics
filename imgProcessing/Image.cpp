@@ -8,7 +8,7 @@
 Image::Image(int width , int height, int channels , std::string filename)
 	:width(width), height(height), channels(channels)
 {
-	char* pPath = getenv("GRAPHICS_PATH");
+	char* pPath = getenv("GRAPHICS");
 	writePath = pPath;
 	writePath += "/";
 	writePath += filename;
