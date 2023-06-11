@@ -2,7 +2,7 @@
 #include "Raytracer.h"
 
 Raytracer::Raytracer(int width, int height)
-	:width(width), height(height)
+    : width(width),
+      height(height)
 {
-
 }
