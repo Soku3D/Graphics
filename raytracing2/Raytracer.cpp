@@ -6,6 +6,8 @@ Raytracer::Raytracer(int width, int height)
       height(height),
       aspect((float)width / height)
 {
+    auto texture = std::make_shared<Texture>("texture4x4");
+
     auto sphere = std::make_shared<Sphere>(glm::vec3(0.0f, 0.0f, 1.5f), 0.8f);
 
     sphere->amb = glm::vec3(0.2f);
@@ -13,7 +15,7 @@ Raytracer::Raytracer(int width, int height)
     sphere->spec = glm::vec3(1.0f);
     sphere->alpha = 100.0f;
     sphere->ks = 1.0f;
-    objects.push_back(sphere);
+    //objects.push_back(sphere);
 
     auto triangle = std::make_shared<Triangle>(glm::vec3(-2.0f, -2.0f, 2.0f),
                                                glm::vec3(-2.0f, 2.0f, 2.0f),
@@ -24,9 +26,35 @@ Raytracer::Raytracer(int width, int height)
     triangle->spec = glm::vec3(1.0f);
     triangle->alpha = 100.0f;
     triangle->ks = 1.0f;
-    objects.push_back(triangle);
+    // objects.push_back(triangle);
 
-    light.pos = glm::vec3(0.0f, -1.4f, -1.0f);
+    auto rectangle = std::make_shared<Rectangle>(
+        glm::vec3(-2.0f, -2.0f, 1.0f), glm::vec3(-2.0f, -2.0f, 4.0f),
+        glm::vec3(2.0f, -2.0f, 4.0f), glm::vec3(2.0f, -2.0f, 1.0f));
+
+    rectangle->amb = glm::vec3(0.1f);
+    rectangle->dif = glm::vec3(0.8f);
+    rectangle->spec = glm::vec3(1.0f);
+    rectangle->alpha = 100.0f;
+    rectangle->ks = 1.0f;
+    rectangle->texture = texture;
+
+    objects.push_back(rectangle);
+
+    auto rectangle2 = std::make_shared<Rectangle>(
+        glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec3(-2.0f, 2.0f, 2.0f),
+        glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(2.0f, -2.0f, 2.0f));
+
+    rectangle2->amb = glm::vec3(0.1f);
+    rectangle2->dif = glm::vec3(0.8f);
+    rectangle2->spec = glm::vec3(1.0f);
+    rectangle2->alpha = 100.0f;
+    rectangle2->ks = 1.0f;
+    rectangle2->texture = texture;
+
+    //objects.push_back(rectangle2);
+
+    light.pos = glm::vec3(0.0f, 2.4f, 0.0f);
     eyePos = glm::vec3(0.0f, 0.0f, -1.0f);
 }
 Hit Raytracer::FindClosestCollision(const Ray& ray)
@@ -62,13 +90,14 @@ glm::vec3 Raytracer::Raytrace(const Ray& ray)
         glm::vec3 ambColor;
         if (hit.obj->texture)
         {
-            ambColor = hit.obj->texture->GetClamped(hit.uv);
+            ambColor = hit.obj->texture->GetTexture(hit.uv);
+            return ambColor;
         }
         else
         {
             ambColor = hit.obj->amb;
         }
-       
+
         glm::vec3 dirToLight = glm::normalize(light.pos - hit.point);
         glm::vec3 dirToEye = glm::normalize(ray.dir - hit.point);
         glm::vec3 reflectDir =
