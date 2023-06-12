@@ -1,8 +1,9 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "Texture.h"
 #include <stb_image_write.h>
+#include "Texture.h"
+
 Texture::Texture(const std::string filename)
     : texturePath("Textures\\"),
       resultPath("Results\\"),
@@ -29,15 +30,16 @@ Texture::Texture(int width, int height, int channels,
     mPixels.resize(width * height * channels);
     for (int idx = 0; idx < pixels.size(); idx++)
     {
-        mPixels[idx * channels] = static_cast<stbi_uc>(pixels[idx].x / 255.0);
+        mPixels[idx * channels] = static_cast<stbi_uc>(pixels[idx].x * 255.0);
         mPixels[idx * channels + 1] =
-            static_cast<stbi_uc>(pixels[idx].y / 255.0);
+            static_cast<stbi_uc>(pixels[idx].y * 255.0);
         mPixels[idx * channels + 2] =
-            static_cast<stbi_uc>(pixels[idx].z / 255.0);
+            static_cast<stbi_uc>(pixels[idx].z * 255.0);
     }
 }
-void Texture::RenderImage(const std::string filename)
+void Texture::RenderImage(const std::string filename, const std::string saveDir)
 {
+    resultPath += saveDir + "\\";
     std::string currPath = resultPath + filename + ".png";
     stbi_write_png(currPath.c_str(), width, height, channels, mPixels.data(),
                    width * channels);

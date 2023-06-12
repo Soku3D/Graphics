@@ -10,4 +10,5 @@ public:
     glm::vec3 point;
     glm::vec3 norm;
     std::shared_ptr<Object> obj;
+    glm::vec2 uv;
 };

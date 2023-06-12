@@ -9,6 +9,8 @@ public:
     glm::vec3 amb;
     glm::vec3 dif;
     glm::vec3 spec;
+    float alpha;
+    float ks;
     std::shared_ptr<Texture> texture;
 
     Object(glm::vec3 color)
@@ -18,5 +20,5 @@ public:
           texture(nullptr)
     {
     }
-    virtual Hit IntersectRayCollision(Ray& ray) = 0;
+    virtual Hit IntersectRayCollision(const Ray& ray) = 0;
 };

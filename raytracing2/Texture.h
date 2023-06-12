@@ -14,5 +14,8 @@ public:
     Texture(int width, int height, int channels,
             const std::vector<glm::vec3>& pixels);
 
-    void RenderImage(const std::string filename = "1");
+    void RenderImage(const std::string filename = "1",
+                     const std::string saveDir = "");
+    glm::vec3 GetClamped(glm::vec2& uv) { return glm::vec3(0.0f);
+    }
 };
