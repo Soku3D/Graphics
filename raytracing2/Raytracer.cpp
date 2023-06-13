@@ -6,7 +6,8 @@ Raytracer::Raytracer(int width, int height)
       height(height),
       aspect((float)width / height)
 {
-    auto texture = std::make_shared<Texture>("texture4x4");
+    auto texture0 = std::make_shared<Texture>("texture0");
+    // auto texturetest = std::make_shared<Texture>("texturetest");
 
     auto sphere = std::make_shared<Sphere>(glm::vec3(0.0f, 0.0f, 1.5f), 0.8f);
 
@@ -15,7 +16,6 @@ Raytracer::Raytracer(int width, int height)
     sphere->spec = glm::vec3(1.0f);
     sphere->alpha = 100.0f;
     sphere->ks = 1.0f;
-    //objects.push_back(sphere);
 
     auto triangle = std::make_shared<Triangle>(glm::vec3(-2.0f, -2.0f, 2.0f),
                                                glm::vec3(-2.0f, 2.0f, 2.0f),
@@ -26,33 +26,33 @@ Raytracer::Raytracer(int width, int height)
     triangle->spec = glm::vec3(1.0f);
     triangle->alpha = 100.0f;
     triangle->ks = 1.0f;
-    // objects.push_back(triangle);
 
     auto rectangle = std::make_shared<Rectangle>(
         glm::vec3(-2.0f, -2.0f, 1.0f), glm::vec3(-2.0f, -2.0f, 4.0f),
-        glm::vec3(2.0f, -2.0f, 4.0f), glm::vec3(2.0f, -2.0f, 1.0f));
+        glm::vec3(2.0f, -2.0f, 4.0f), glm::vec3(2.0f, -2.0f, 1.0f), 4.0f);
 
     rectangle->amb = glm::vec3(0.1f);
     rectangle->dif = glm::vec3(0.8f);
     rectangle->spec = glm::vec3(1.0f);
     rectangle->alpha = 100.0f;
     rectangle->ks = 1.0f;
-    rectangle->texture = texture;
-
-    objects.push_back(rectangle);
+    rectangle->texture = texture0;
 
     auto rectangle2 = std::make_shared<Rectangle>(
         glm::vec3(-2.0f, -2.0f, 2.0f), glm::vec3(-2.0f, 2.0f, 2.0f),
-        glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(2.0f, -2.0f, 2.0f));
+        glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(2.0f, -2.0f, 2.0f), 4.0f);
 
     rectangle2->amb = glm::vec3(0.1f);
     rectangle2->dif = glm::vec3(0.8f);
     rectangle2->spec = glm::vec3(1.0f);
     rectangle2->alpha = 100.0f;
     rectangle2->ks = 1.0f;
-    rectangle2->texture = texture;
+    rectangle2->texture = texture0;
 
-    //objects.push_back(rectangle2);
+    objects.push_back(triangle);
+    // objects.push_back(rectangle);
+    // objects.push_back(rectangle2);
+    objects.push_back(sphere);
 
     light.pos = glm::vec3(0.0f, 2.4f, 0.0f);
     eyePos = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -82,7 +82,7 @@ bool Raytracer::IsShadow(const Ray& ray)
     }
     return false;
 }
-glm::vec3 Raytracer::Raytrace(const Ray& ray)
+glm::vec3 Raytracer::traceRay(const Ray& ray)
 {
     Hit hit = FindClosestCollision(ray);
     if (hit.d >= 0.0f)
@@ -90,7 +90,7 @@ glm::vec3 Raytracer::Raytrace(const Ray& ray)
         glm::vec3 ambColor;
         if (hit.obj->texture)
         {
-            ambColor = hit.obj->texture->GetTexture(hit.uv);
+            ambColor = hit.obj->texture->GetLinear(hit.uv);
             return ambColor;
         }
         else
@@ -103,8 +103,8 @@ glm::vec3 Raytracer::Raytrace(const Ray& ray)
         glm::vec3 reflectDir =
             2.0f * glm::dot(hit.norm, dirToLight) * hit.norm - dirToLight;
 
-        Ray RayToLight{hit.point + hit.norm * 1e-5f, dirToLight};
-        if (IsShadow(RayToLight))
+        Ray shadowRay{hit.point + hit.norm * 1e-5f, dirToLight};
+        if (IsShadow(shadowRay))
         {
             return ambColor;
         }
@@ -118,6 +118,28 @@ glm::vec3 Raytracer::Raytrace(const Ray& ray)
     }
     return glm::vec3(0.0f);
 }
+glm::vec3 Raytracer::traceRay2x2(glm::vec3& currPos, float currD, int count)
+{
+    if (count == 0)
+    {
+        Ray ray{currPos, glm::normalize(currPos - eyePos)};
+        return traceRay(ray); 
+    }
+    float subD = currD * 0.5;
+    glm::vec3 p0 = currPos - glm::vec3(0.5f * subD, 0.5f * subD, 0.0f);
+    //glm::vec3 color = traceRay2x2(currPos, currD,0);
+    glm::vec3 color(0.0f);
+    for (int y = 0; y < 2; y++)
+    {
+        for (int x = 0; x < 2; x++)
+        {
+            glm::vec3 p = p0 + glm::vec3(subD * x, subD * y, 0.0f);
+            color += traceRay2x2(p, subD, count - 1);
+        }
+    }
+    color *= 0.25;
+    return glm::clamp(color, 0.0f, 1.0f);
+}
 void Raytracer::Render(std::vector<glm::vec3>& pixels)
 {
 
@@ -129,8 +151,9 @@ void Raytracer::Render(std::vector<glm::vec3>& pixels)
         for (int x = 0; x < width; x++)
         {
             glm::vec3 worldPos = TransformScreenToWorld(glm::vec2(x, y));
-            Ray ray{worldPos, glm::normalize(worldPos - eyePos)};
-            pixels[y * width + x] = glm::clamp(Raytrace(ray), 0.0f, 1.0f);
+            float d = 2.0f / height;
+            pixels[y * width + x] = glm::clamp(traceRay2x2(worldPos, d, 3), 0.0f, 1.0f);
+            // std::cout << x << ' ' << y << '\n';
         }
     }
 }

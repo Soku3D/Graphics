@@ -17,7 +17,8 @@ public:
     Light light;
 public:
     Hit FindClosestCollision(const Ray& ray);
-    glm::vec3 Raytrace(const Ray& ray);
+    glm::vec3 traceRay2x2(glm::vec3& currPos, float currD, int count);
+    glm::vec3 traceRay(const Ray& ray);
     void Render(std::vector<glm::vec3>& pixels);
     glm::vec3 TransformScreenToWorld(const glm::vec2& pos);
 

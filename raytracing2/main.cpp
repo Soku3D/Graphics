@@ -39,4 +39,5 @@ int main(int argc, char** argv)
     texture.RenderImage(resultFilename, directoryName);
     std::string filePath = resultPath + ".png";
     system(filePath.c_str());
+
 }

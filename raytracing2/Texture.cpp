@@ -15,7 +15,7 @@ Texture::Texture(const std::string filename)
 
     stbi_uc* img = stbi_load(currPath.c_str(), &width, &height, &channels, 0);
     mPixels.resize(width * height * channels);
-    memcpy(mPixels.data(), img, width * height * channels);
+    memcpy(mPixels.data(), img, mPixels.size() * sizeof(uint8_t));
 
     delete img;
 }

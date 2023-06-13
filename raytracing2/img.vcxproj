@@ -121,6 +121,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;RESULTS="$(ProjectDir)Results\."</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <OpenMPSupport>true</OpenMPSupport>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
